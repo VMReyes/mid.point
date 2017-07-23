@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="static/index.js"></script>
     <meta charset="utf-8">
     <title>Meet In The Middle</title>
   </head>
   <body>
     <form>
       <h1>Enter Location 1</h1>
+      <button onclick="getLocation()">Try It</button>
+      <p id="demo"></p>
+      <h2 id="startLon">x</h2>
       <input type="text" name="loc1" value="" autocomplete="address-line1"></input>
       <h1>Enter Location 2</h1>
       <input type="text" name="loc2" value=""></input> <br>
