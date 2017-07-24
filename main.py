@@ -14,6 +14,7 @@
 
 import webapp2
 import jinja2
+from users import *
 
 env=jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 
@@ -35,7 +36,17 @@ class ResultsHandlers(webapp2.RequestHandler):
         template = env.get_template('results.html')
         self.response.write(template.render(coords))
 
+class CreateDummies(webapp2.RequestHandler):
+    def get(self):
+        UserStorage(id = "Prado Inciong", email="prado_jix@yahoo.com", LatLocation = 33.99, LongLocation= -118.47  ).put()
+        UserStorage(id = "Jasmine Chau", email="Jasmine_Chau@yahoo.com", LatLocation = 55.0, LongLocation= 118.47  ).put()
+        UserStorage(id = "Victor Reyes", email="Victor_Reyes@yahoo.com", LatLocation = -3.99, LongLocation= -118.47  ).put()
+        user_query = UserStorage.query()
+        users = user_query.fetch()
+        self.response.write(users)
+
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
-    ('/results', ResultsHandlers)
+    ('/results', ResultsHandlers),
+    ('/createDummies', CreateDummies)
 ], debug=True)
