@@ -28,6 +28,9 @@ class ResultsHandlers(webapp2.RequestHandler):
     def get(self):
         loc1 = float(self.request.get('loc1'))
         loc2 = float(self.request.get('loc2'))
+        for key, value in self.request.get():
+            print(key, value)
+            print(key)
         user_query = UserStorage.query(UserStorage.email == self.request.get('femail1'))
         friend = user_query.get()
         coords = {'lat' : (loc1 + friend.LatLocation) / 2,
