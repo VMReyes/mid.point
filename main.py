@@ -28,10 +28,10 @@ class ResultsHandlers(webapp2.RequestHandler):
     def get(self):
         loc1 = float(self.request.get('loc1'))
         loc2 = float(self.request.get('loc2'))
-        loc3 = float(self.request.get('floc1'))
-        loc4 = float(self.request.get('floc2'))
-        coords = {'lat' : (loc1 + loc3) / 2,
-                  'lon' : (loc2 + loc4) / 2}
+        user_query = UserStorage.query(UserStorage.email == self.request.get('femail'))
+        friend = user_query.get()
+        coords = {'lat' : (loc1 + friend.LatLocation) / 2,
+                  'lon' : (loc2 + friend.LongLocation) / 2}
 
         template = env.get_template('results.html')
         self.response.write(template.render(coords))
