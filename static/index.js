@@ -29,3 +29,9 @@ function showPosition(position) {
     latBox.value = position.coords.latitude;
     lonBox.value = position.coords.longitude;
 }
+
+numberOfFriends=1;
+function addFields() {
+  document.getElementById('wrapper').innerHTML += 'Friend email:<input type="text" name="femail' + numberOfFriends+'"/>\r\n';
+  numberOfFriends += 1;
+}
