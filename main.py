@@ -23,11 +23,12 @@ class MainPageHandler(webapp2.RequestHandler):
         template = env.get_template('index.html')
         self.response.write(template.render())
 
-class ReultsHandlers(webapp2.RequestHandler):
+class ResultsHandlers(webapp2.RequestHandler):
     def get(self):
         template = env.get_template('results.html')
         self.response.write(template.render())
 
 app = webapp2.WSGIApplication([
-    ('/', MainPageHandler)
+    ('/', MainPageHandler),
+    ('/results', ResultsHandlers)
 ], debug=True)
