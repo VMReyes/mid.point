@@ -1,0 +1,148 @@
+ html {
+    height: 100%;
+    margin: 0;
+    background-image: url("user_find.jpg");
+   /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+
+
+
+/*Start of CSS for the Menu */
+#nav{
+  margin: -10px;
+  height: 58px;
+	background-color: white;
+  display: flex;
+
+}
+
+#nav_wrapper{
+  margin-top: 100px;
+	width: 960px;
+	margin: 0 auto;
+	text-align: left;
+}
+/*Removes bullet points*/
+#nav ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	position: relative;
+
+}
+/*Aligns*/
+#nav ul li{
+		display: inline-block;
+
+}
+
+#nav ul li:hover{
+	background-color: #333;
+
+}
+
+/*make the link cover the area of li when visited with gray*/
+#nav ul li a,visited{
+	color: #ccc;
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+}
+#nav ul li a:hover{
+	color: #ccc;
+	text-decoration: none;
+
+
+}
+/*When we hover over the first ul li (Home) we want something to happen next to ul ul*/
+#nav ul li:hover ul{
+	display: block;
+
+
+}
+
+/*color for the link drop down = gray*/
+#nav ul ul{
+	display: none;
+	position: absolute;
+	background-color: black; /* 333, 222 */
+	border: 5px solid black;
+	border-top: 0;
+	margin-left: -4px;
+	/*for long links*/
+	min-width: 200px;
+}
+/*drop down*/
+#nav ul ul li{
+	display:block;
+
+}
+#nav ul ul li a,visited{
+	color: #ccc;
+
+}
+/*color for the link in dropdown */
+#nav ul ul li a:hover{
+		color: #099;
+
+}
+
+#nav_wrapper{
+  font-size: 180%;
+}
+
+#nav_wrapper ul li a{
+  color: black;
+}
+/* End of CSS for the Menu */
+
+/*Start of Styling the Main = right and left */
+#main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+#main_right{
+  border-radius: 25px;
+  border-style: solid;
+  background-color: white;
+  margin: 5%;
+  padding: 5%;
+}
+
+#main_left{
+  color: #b3b3b3;
+  text-shadow: -2px 0 #000000,0 1px #000000,1px 0 #000000,0 -2px #000000;
+  text-align: center;
+  margin-top: 16%;
+  font-size: 200%;
+
+}
+/*End of Styling for the Main = form */
+
+/*Start of Title Heading Style*/
+#header {
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+#header_mid img{
+  height: 50%;
+}
+#header_dot{
+  height: 50%;
+  margin-top: 6%;
+}
+#header_point img{
+  height: 50%;
+}
+/*End of Title Heading Style*/

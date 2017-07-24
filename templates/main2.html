@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mid.Point Main Page</title>
+    <link rel="stylesheet" type="text/css" href="main2.css">
+
+  </head>
+  <body>
+
+
+    <!-- This is for the top title part-->
+
+
+<!-- Menu List -->
+      <!--Contains the lists and links-->
+      <div id="nav">
+        <div id="header">
+          <div id="header_mid">
+            <img src="mid_img.png">
+          </div>
+          <div id="header_dot">
+            <img src="dot_img.png">
+          </div>
+          <div id="header_point">
+             <img src="point_img.png">
+          </div>
+        </div>
+        <div id="nav_wrapper">
+          <ul>
+            <li><a href="main.html">Home</a></li>
+            <li><a href="#">Contact Page</a></li>
+            <li><a href="#">About Us</a></li>
+          </ul>
+        </div>
+      </div>
+<!--End of Menu List -->
+
+
+
+      <div id="main">
+          <div id="main_left">
+            <!-- LEFT TEXT -->
+              <h1>Find a place at Mid Point!</h1>
+          </div>
+          <div id="main_right">
+            <!-- Form Right-->
+            <!-- Vic's code -->
+        <button onclick="getLocation()">Get Location</button>
+        <p id="demo"></p>
+        <form>
+          <h1>Enter Location 1</h1>
+          <h2 id="startLon">x</h2>
+          <input type="text" name="loc1" value=""/>
+          <h1>Enter Location 2</h1>
+          <input type="text" name="loc2" value=""/> <br/>
+          <input type="submit" name="result" value="Submit"/>
+        </form>
+        <script src="static/index2.js"></script>
+        <!-- Vic's code -->
+
+          </div>
+      </div>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+      <script src="main2.js"></script>
+  </body>
+</html>
