@@ -29,5 +29,5 @@ class ReultsHandlers(webapp2.RequestHandler):
         self.response.write(template.render())
 
 app = webapp2.WSGIApplication([
-    ('/', MainPage),
+    ('/', MainPageHandler)
 ], debug=True)
