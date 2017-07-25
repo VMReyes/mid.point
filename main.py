@@ -58,19 +58,17 @@ class CreateDummies(webapp2.RequestHandler):
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        if user:
-            greeting = ('Welcome, %s! (<a href="%s">sign out</a>)' %
-                (user.nickname(), users.create_logout_url('/')))
-        else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
-                users.create_login_url('/profile'))
-
-        self.response.write('<html><body>%s</body></html>' % greeting)
-
-class ProfileHandler(webapp2.RequestHandler):
-    def get(self):
         template = env.get_template('profile.html')
-        self.response.write(template.render())
+
+        if user:
+            template_vars = {'name': user.nickname(),
+                             'logout_url': users.create_logout_url('/')}
+            self.response.write(template.render(template_vars))
+        else:
+            self.response.write('<a href="%s">Sign in or register</a>.' %
+                users.create_login_url('/login'))
+
+
 #class SuccessHandler(webapp2.RequestHandler):
 #    def post(self):
         #make a user
@@ -80,6 +78,5 @@ app = webapp2.WSGIApplication([
     ('/results', ResultsHandlers),
     ('/createDummies', CreateDummies),
     ('/login', LoginHandler),
-    ('/profile', ProfileHandler),
 #    ('/success', SuccessHandler)
 ], debug=True)
