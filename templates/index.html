@@ -48,18 +48,21 @@
             <!-- Vic's code -->
         <button onclick="getLocation()">Get Location</button>
         <p id="demo"></p>
-        
+
         <form action="/results">
           <h1>Enter Latitude:</h1>
           <input id = "latBox" type="text" name="loc1"/>
           <h1>Enter Longitude:</h1>
           <input id = "lonBox"type="text" name="loc2"/> <br/>
           <input type="text" value="1" name="friends" id="friendCounter" readonly>
-          <h1>Enter Friend Email:</h1>
+          <div id="add_friends_button">
+            <h1>Enter Friend Email:</h1>
+            <button onclick="addFields()" type="button">Add Friends</button>
+          </div>
           <input id = "flatBox" type="text" name="femail1" value=""/>
-          <button onclick="addFields()" type="button">Add Friends</button>
+
           <div id='wrapper'></div>
-          <input type="submit" name="result" value="Submit" action="/results" value="/results"/>
+          <input id="submit_button" type="submit" name="result" value="Submit" action="/results" value="/results"/>
         </form>
 
           </div>
