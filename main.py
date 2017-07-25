@@ -32,12 +32,14 @@ class ResultsHandlers(webapp2.RequestHandler):
         loc2 = float(self.request.get('loc2'))
         friends = int(self.request.get('friends'))
         for i in range(1,friends,1):
-            print (self.request.get('femail' + str(i)))
-
-        user_query = UserStorage.query(UserStorage.email == self.request.get('femail1'))
-        friend = user_query.get()
-        coords = {'lat' : (loc1 + friend.LatLocation) / 2,
-                  'lon' : (loc2 + friend.LongLocation) / 2}
+            user_query = UserStorage.query(UserStorage.email == self.request.get('femail'+str(i)))
+            friend = user_query.get()
+            lat += friend.LatLocation
+            lon += friend.LongLocation
+        lat /= friends
+        lon /= friends
+        coords = {'lat' : lat,
+                  'lon' : lon}
 
         template = env.get_template('results.html')
         self.response.write(template.render(coords))
