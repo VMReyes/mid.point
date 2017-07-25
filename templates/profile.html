@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="static/profile.css">
   </head>
   <body>
-    <h1>Setup your profile!</h1>
     <div id="nav">
       <div id="header">
         <div id="headerone">
@@ -28,6 +27,9 @@
         </ul>
       </div>
     </div>
+    <br><br>
+  <div id=form>
+      <h1>Setup your profile!</h1>
       <form method="post" action ="/success">
              <h3>Enter a name:</h3> <input type="text" name="name"/>
              <h3>Enter your Latitude:</h3><input type="text" name="user_LatLocation"/>
@@ -36,5 +38,6 @@
           <p><input type="submit" value="Submit"></p>
      </form>
      Welcome, {{name}}! <a href="{{logout_url}}">sign out</a>
+  </div>
   </body>
 </html>
