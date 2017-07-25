@@ -1,0 +1,133 @@
+#nav{
+  margin: -10px;
+  height: 58px;
+	background-color: white;
+  display: flex;
+
+}
+
+#nav_wrapper{
+  margin-top: 100px;
+	width: 960px;
+	margin: 0 auto;
+	text-align: left;
+}
+/*Removes bullet points*/
+#nav ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	position: relative;
+
+}
+/*Aligns*/
+#nav ul li{
+		display: inline-block;
+
+}
+
+#nav ul li:hover{
+	background-color: #333;
+
+}
+
+/*make the link cover the area of li when visited with gray*/
+#nav ul li a,visited{
+	color: #ccc;
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+}
+#nav ul li a:hover{
+	color: #ccc;
+	text-decoration: none;
+
+
+}
+/*When we hover over the first ul li (Home) we want something to happen next to ul ul*/
+#nav ul li:hover ul{
+	display: block;
+
+
+}
+
+/*color for the link drop down = gray*/
+#nav ul ul{
+	display: none;
+	position: absolute;
+	background-color: black; /* 333, 222 */
+	border: 5px solid black;
+	border-top: 0;
+	margin-left: -4px;
+	/*for long links*/
+	min-width: 200px;
+}
+/*drop down*/
+#nav ul ul li{
+	display:block;
+
+}
+#nav ul ul li a,visited{
+	color: #ccc;
+
+}
+/*color for the link in dropdown */
+#nav ul ul li a:hover{
+		color: #099;
+
+}
+
+#nav_wrapper{
+  font-size: 180%;
+}
+
+#nav_wrapper ul li a{
+  color: black;
+}
+/* End of CSS for the Menu */
+
+/*Start of Title Heading Style*/
+#header {
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+
+}
+
+#headerone img {
+  height: 55px;
+  padding-right: 10px;
+}
+#header_dot{
+  height: 20px;
+  margin-top: 10px;
+}
+#headertwo img{
+  height: 55px;
+  padding-left: 10px;
+}
+/*End of Title Heading Style*/
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  background-image: url(http://www.bahrain101.com/wp-content/uploads/2016/10/travel.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+#form{
+  text-align: center;
+  display:block;
+  background-color: white;
+  opacity: 0.7;
+  margin-top: 100px;
+  margin-bottom: 90px;
+  margin-left: 500px;
+  margin-right: 500px;
+  border: 3px solid black;
+}
