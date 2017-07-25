@@ -25,6 +25,15 @@ class MainPageHandler(webapp2.RequestHandler):
     def get(self):
         template = env.get_template('index.html')
         self.response.write(template.render())
+    def post(self):
+        person = UserStorage.query.(UserStorage.email == users.get_current_user().email()).get()
+        person.name = self.request.get('name')
+        person.LatLocation = float(self.request.get('user_LatLocation'))
+        person.LongLocation = float(self.request.get('user_LongLocation'))
+        person.setup = True
+        template = env.get_template('index.html')
+        self.response.write(template.render())
+
 
 class ResultsHandlers(webapp2.RequestHandler):
     def get(self):
@@ -74,18 +83,10 @@ class LoginHandler(webapp2.RequestHandler):
                 users.create_login_url('/login'))
 
 
-class SuccessHandler(webapp2.RequestHandler):
-    def post(self):
-        name = self.request.get('name')
-        user_LatLocation = float(self.request.get('user_LatLocation'))
-        user_LongLocation = float(self.request.get('user_LongLocation'))
-        UserStorage(email=users.get_current_user().email(),id=name,LatLocation=user_LatLocation,LongLocation=user_LongLocation,setup=True).put()
-
-
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
     ('/results', ResultsHandlers),
     ('/createDummies', CreateDummies),
     ('/login', LoginHandler),
-    ('/success', SuccessHandler)
+    ('/success', MainPageHandler)
 ], debug=True)
