@@ -71,8 +71,8 @@ class ProfileHandler(webapp2.RequestHandler):
     def get(self):
         template = env.get_template('profile.html')
         self.response.write(template.render())
-class SuccessHandler(webapp2.RequestHandler):
-    def post(self):
+#class SuccessHandler(webapp2.RequestHandler):
+#    def post(self):
         #make a user
 
 app = webapp2.WSGIApplication([
@@ -81,5 +81,5 @@ app = webapp2.WSGIApplication([
     ('/createDummies', CreateDummies),
     ('/login', LoginHandler),
     ('/profile', ProfileHandler),
-    ('/success', SuccessHandler)
+#    ('/success', SuccessHandler)
 ], debug=True)
