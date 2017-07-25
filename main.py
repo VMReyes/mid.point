@@ -16,6 +16,8 @@ import webapp2
 import jinja2
 from users import *
 from google.appengine.api import users
+import urllib2
+import json
 
 
 env=jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
@@ -35,6 +37,8 @@ class MainPageHandler(webapp2.RequestHandler):
             self.response.write(template.render(template_vars))
 
     def post(self):
+
+
         user = users.get_current_user()
         person = UserStorage.query(UserStorage.email == users.get_current_user().email()).get()
         person.id = self.request.get('name')
@@ -55,8 +59,12 @@ class MainPageHandler(webapp2.RequestHandler):
 
 class ResultsHandlers(webapp2.RequestHandler):
     def get(self):
-        loc1 = float(self.request.get('loc1'))
-        loc2 = float(self.request.get('loc2'))
+        address = str(self.request.get('loc1'))
+        address = address.replace(" ", "+")
+        content = urllib2.urlopen("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % address).read()
+        content_dict = json.loads(content)
+        loc2 = float(content_dict['results'][0]['geometry']['location']['lng'])
+        loc1 = float(content_dict['results'][0]['geometry']['location']['lat'])
         friends = int(self.request.get('friends'))
         lat=0.00
         lon=0.00
