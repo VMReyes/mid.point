@@ -31,13 +31,15 @@ class ResultsHandlers(webapp2.RequestHandler):
         loc1 = float(self.request.get('loc1'))
         loc2 = float(self.request.get('loc2'))
         friends = int(self.request.get('friends'))
+        lat=0.00
+        lon=0.00
         for i in range(1,friends,1):
             user_query = UserStorage.query(UserStorage.email == self.request.get('femail'+str(i)))
             friend = user_query.get()
             lat += friend.LatLocation
             lon += friend.LongLocation
-        lat /= friends
-        lon /= friends
+        lat /= friends + 1
+        lon /= friends + 1
         coords = {'lat' : lat,
                   'lon' : lon}
 
