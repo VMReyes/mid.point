@@ -63,6 +63,7 @@ class LoginHandler(webapp2.RequestHandler):
         if user:
             template_vars = {'name': user.nickname(),
                              'logout_url': users.create_logout_url('/')}
+            UserStorage(id = "dummy", email=user.nickname(), LatLocation = 3, LongLocation=3).put()
             self.response.write(template.render(template_vars))
         else:
             self.response.write('<a href="%s">Sign in or register</a>.' %
