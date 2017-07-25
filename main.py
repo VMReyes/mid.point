@@ -63,14 +63,23 @@ class LoginHandler(webapp2.RequestHandler):
                 (user.nickname(), users.create_logout_url('/')))
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
-                users.create_login_url('/'))
+                users.create_login_url('/profile'))
 
         self.response.write('<html><body>%s</body></html>' % greeting)
 
+class ProfileHandler(webapp2.RequestHandler):
+    def get(self):
+        template = env.get_template('profile.html')
+        self.response.write(template.render())
+class SuccessHandler(webapp2.RequestHandler):
+    def post(self):
+        #make a user
 
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
     ('/results', ResultsHandlers),
     ('/createDummies', CreateDummies),
-    ('/login', LoginHandler)
+    ('/login', LoginHandler),
+    ('/profile', ProfileHandler),
+    ('/success', SuccessHandler)
 ], debug=True)
