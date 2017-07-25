@@ -113,8 +113,11 @@
 #main_right{
   border-radius: 25px;
   border-style: solid;
+  opacity: 0.5;
   background-color: white;
   margin: 5%;
+  margin-top: 8%;
+  margin-right:10%;
   padding: 5%;
 }
 
@@ -150,4 +153,25 @@
 #wrapper {
   display: flex;
   flex-direction: column;
+}
+
+/*Form*/
+#main_right button{
+  margin-left:-15%;
+  background-color: red;
+  border-style: solid;
+  color: white;
+  padding: 8%;
+  border: 1px solid
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#main_right h1{
+  margin-left: -10%;
+  font-weight: 300;
+  font-size: 110%;
 }
