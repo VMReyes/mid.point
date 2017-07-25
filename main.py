@@ -61,23 +61,31 @@ class LoginHandler(webapp2.RequestHandler):
         template = env.get_template('profile.html')
 
         if user:
-            template_vars = {'name': user.nickname(),
-                             'logout_url': users.create_logout_url('/')}
-            UserStorage(id = "dummy", email=user.nickname(), LatLocation = 3, LongLocation=3).put()
-            self.response.write(template.render(template_vars))
+            if UserStorage.query(UserStorage.email==user.nickname(), UserStorage.setup == True).get():
+                template_vars = {'name': user.nickname(),
+                                 'logout_url': users.create_logout_url('/')}
+                self.response.write(template.render(template_vars))
+            else:
+                template_vars = {'name': user.nickname(),
+                                 'logout_url': users.create_logout_url('/')}
+                self.response.write(template.render(template_vars))
         else:
             self.response.write('<a href="%s">Sign in or register</a>.' %
                 users.create_login_url('/login'))
 
 
-#class SuccessHandler(webapp2.RequestHandler):
-#    def post(self):
-        #make a user
+class SuccessHandler(webapp2.RequestHandler):
+    def post(self):
+        name = self.request.get('name')
+        user_LatLocation = float(self.request.get('user_LatLocation'))
+        user_LongLocation = float(self.request.get('user_LongLocation'))
+        UserStorage(email=users.get_current_user().email(),id=name,LatLocation=user_LatLocation,LongLocation=user_LongLocation,setup=True).put()
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
     ('/results', ResultsHandlers),
     ('/createDummies', CreateDummies),
     ('/login', LoginHandler),
-#    ('/success', SuccessHandler)
+    ('/success', SuccessHandler)
 ], debug=True)
