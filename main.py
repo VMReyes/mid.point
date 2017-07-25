@@ -24,15 +24,33 @@ env=jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 class MainPageHandler(webapp2.RequestHandler):
     def get(self):
         template = env.get_template('index.html')
-        self.response.write(template.render())
+        user = users.get_current_user()
+        if user:
+            template_vars = {'logstatus':"Log Out",
+                             'logoutlink': users.create_logout_url('/')}
+            self.response.write(template.render(template_vars))
+        else:
+            template_vars = {'logstatus': "Log In",
+                             'logoutlink': users.create_login_url('/login')}
+            self.response.write(template.render(template_vars))
+
     def post(self):
-        person = UserStorage.query.(UserStorage.email == users.get_current_user().email()).get()
-        person.name = self.request.get('name')
+        user = users.get_current_user()
+        person = UserStorage.query(UserStorage.email == users.get_current_user().email()).get()
+        person.id = self.request.get('name')
         person.LatLocation = float(self.request.get('user_LatLocation'))
         person.LongLocation = float(self.request.get('user_LongLocation'))
         person.setup = True
+        person.put()
         template = env.get_template('index.html')
-        self.response.write(template.render())
+        if user:
+            template_vars = {'logstatus':"Log Out",
+                             'logoutlink': users.create_logout_url('/')}
+            self.response.write(template.render(template_vars))
+        else:
+            template_vars = {'logstatus': "Log In",
+                             'logoutlink': users.create_login_url('/login')}
+            self.response.write(template.render(template_vars))
 
 
 class ResultsHandlers(webapp2.RequestHandler):
@@ -68,19 +86,7 @@ class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         template = env.get_template('profile.html')
-
-        if user:
-            if UserStorage.query(UserStorage.email==user.nickname(), UserStorage.setup == True).get():
-                template_vars = {'name': user.nickname(),
-                                 'logout_url': users.create_logout_url('/')}
-                self.response.write(template.render(template_vars))
-            else:
-                template_vars = {'name': user.nickname(),
-                                 'logout_url': users.create_logout_url('/')}
-                self.response.write(template.render(template_vars))
-        else:
-            self.response.write('<a href="%s">Sign in or register</a>.' %
-                users.create_login_url('/login'))
+        self.response.write(template.render())
 
 
 app = webapp2.WSGIApplication([
