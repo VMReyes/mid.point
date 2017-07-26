@@ -37,8 +37,6 @@ class MainPageHandler(webapp2.RequestHandler):
             self.response.write(template.render(template_vars))
 
     def post(self):
-
-
         user = users.get_current_user()
         person = UserStorage.query(UserStorage.email == users.get_current_user().email()).get()
         person.id = self.request.get('name')
