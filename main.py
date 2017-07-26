@@ -31,12 +31,8 @@ class MainPageHandler(webapp2.RequestHandler):
             user1 = query.get()
             address = user1.address
             template_vars = {'logstatus':"Log Out",
-<<<<<<< HEAD
-                             'logoutlink': users.create_logout_url('/')}
-=======
                              'logoutlink': users.create_logout_url('/'),
                              'address': address}
->>>>>>> 44b38c0344dc6ace67568687f932350d24b5043b
             self.response.write(template.render(template_vars))
         else:
             template_vars = {'logstatus': "Log In",
