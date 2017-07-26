@@ -75,20 +75,19 @@ class ResultsHandlers(webapp2.RequestHandler):
             lng += friend.LongLocation
         lat /= friends + 1
         lng /= friends + 1
-        coords = {'lat' : lat,
-                  'lon' : lng}
+        template_vars = {'lat' : lat,
+                         'lon' : lng}
         coordsquery = str(lat) + "," + str(lng)
         print coordsquery
-        #restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%d,%d&radius=500&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % (lat, lon))
-        #restaurants = json.load(restaurants)
-        #restaurants = restaurants['results']
-        #rest_list=[]
-        #print restaurants
-        #for i in range(0,10,1):
-        #    rest_list.append(restaurants[0]['name'])
-        #print rest_list
+        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=1000&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
+        restaurants = json.load(restaurants)
+        restaurants = restaurants['results']
+        print restaurants
+        for i in range(0,10,1):
+            template_vars[str(i)] = restaurants[i]['name']
+        print template_vars
         template = env.get_template('results.html')
-        self.response.write(template.render(coords))
+        self.response.write(template.render(template_vars))
 
 class CreateDummies(webapp2.RequestHandler):
     def get(self):
