@@ -28,8 +28,7 @@ class MainPageHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         if user:
             template_vars = {'logstatus':"Log Out",
-                             'logoutlink': users.create_logout_url('/'),
-                             'address': UserStorage.query(UserStorage.email == users.email()).get().address}
+                             'logoutlink': users.create_logout_url('/')}
             self.response.write(template.render(template_vars))
         else:
             template_vars = {'logstatus': "Log In",
@@ -103,11 +102,17 @@ class LoginHandler(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
+class ActivitiesHandler(webapp2.RequestHandler):
+    def get(self):
+        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyCLQX1qUpEtlls2fjHvThYT7WbufGnOPD0").read()
+        self.response.write("<html>%s</html>" % restaurants)
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
     ('/results', ResultsHandlers),
     ('/createDummies', CreateDummies),
     ('/login', LoginHandler),
-    ('/success', MainPageHandler)
+    ('/success', MainPageHandler),
+    ('/activities', ActivitiesHandler)
 ], debug=True)
