@@ -73,18 +73,22 @@ class ResultsHandlers(webapp2.RequestHandler):
         address = address.replace(" ", "+")
         content = urllib2.urlopen("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % address).read()
         content_dict = json.loads(content)
-        lat = float(content_dict['results'][0]['geometry']['location']['lng'])
-        lon = float(content_dict['results'][0]['geometry']['location']['lat'])
+        lng = float(content_dict['results'][0]['geometry']['location']['lng'])
+        lat = float(content_dict['results'][0]['geometry']['location']['lat'])
+        print lat
+        print lng
         friends = int(self.request.get('friends'))
-        for i in range(1,friends,1):
+        for i in range(1,friends+1,1):
             user_query = UserStorage.query(UserStorage.email == self.request.get('femail'+str(i)))
             friend = user_query.get()
             lat += friend.LatLocation
-            lon += friend.LongLocation
-        lat /= friends + 1
-        lon /= friends + 1
+            lng += friend.LongLocation
+            print lat
+            print lng
+        lat /= float(friends)+1
+        lng /= float(friends)+1
         coords = {'lat' : lat,
-                  'lon' : lon}
+                  'lon' : lng}
 
         template = env.get_template('results.html')
         self.response.write(template.render(coords))
@@ -92,8 +96,8 @@ class ResultsHandlers(webapp2.RequestHandler):
 class CreateDummies(webapp2.RequestHandler):
     def get(self):
         UserStorage(id = "Prado Inciong", email="prado_jix@yahoo.com", LatLocation = 33.99, LongLocation= -118.47  ).put()
-        UserStorage(id = "Jasmine Chau", email="Jasmine_Chau@yahoo.com", LatLocation = 55.0, LongLocation= 118.47  ).put()
-        UserStorage(id = "Victor Reyes", email="Victor_Reyes@yahoo.com", LatLocation = -3.99, LongLocation= -118.47  ).put()
+        UserStorage(id = "Jasmine Chau", email="jasmine_chau@yahoo.com", LatLocation = 55.0, LongLocation= 118.47  ).put()
+        UserStorage(id = "Victor Reyes", email="victor_reyes@yahoo.com", LatLocation = -3.99, LongLocation= -118.47  ).put()
         user_query = UserStorage.query()
         users = user_query.fetch()
         self.response.write(users)

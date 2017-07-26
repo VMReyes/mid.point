@@ -35,7 +35,7 @@ function showPosition(position) {
 }
 numberOfFriends=1;
 function addFields() {
+  numberOfFriends = numberOfFriends+1;
   document.getElementById('wrapper').innerHTML += 'Friend email:<input type="text" name="femail' + numberOfFriends+'"/>\r\n';
-  numberOfFriends += 1;
   document.getElementById('friendCounter').value = numberOfFriends;
 }
