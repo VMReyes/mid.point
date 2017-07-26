@@ -65,21 +65,28 @@ class ResultsHandlers(webapp2.RequestHandler):
         address = address.replace(" ", "+")
         content = urllib2.urlopen("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % address).read()
         content_dict = json.loads(content)
-        loc2 = float(content_dict['results'][0]['geometry']['location']['lng'])
-        loc1 = float(content_dict['results'][0]['geometry']['location']['lat'])
+        lng = float(content_dict['results'][0]['geometry']['location']['lng'])
+        lat = float(content_dict['results'][0]['geometry']['location']['lat'])
         friends = int(self.request.get('friends'))
-        lat=0.00
-        lon=0.00
-        for i in range(1,friends,1):
+        for i in range(1,friends+1,1):
             user_query = UserStorage.query(UserStorage.email == self.request.get('femail'+str(i)))
             friend = user_query.get()
             lat += friend.LatLocation
-            lon += friend.LongLocation
+            lng += friend.LongLocation
         lat /= friends + 1
-        lon /= friends + 1
+        lng /= friends + 1
         coords = {'lat' : lat,
-                  'lon' : lon}
-
+                  'lon' : lng}
+        coordsquery = str(lat) + "," + str(lng)
+        print coordsquery
+        #restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%d,%d&radius=500&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % (lat, lon))
+        #restaurants = json.load(restaurants)
+        #restaurants = restaurants['results']
+        #rest_list=[]
+        #print restaurants
+        #for i in range(0,10,1):
+        #    rest_list.append(restaurants[0]['name'])
+        #print rest_list
         template = env.get_template('results.html')
         self.response.write(template.render(coords))
 
@@ -102,19 +109,12 @@ class LoginHandler(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
-class ActivitiesHandler(webapp2.RequestHandler):
-    def get(self):
-        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%d,%d&radius=500&type=restaurant&key=AIzaSyCLQX1qUpEtlls2fjHvThYT7WbufGnOPD0" %)
-        restaurants = json.load(restaurants)
-        restaurants = restaurants['results']
-        for i in range(11):
-            self.response.write("%s\n<br>" % restaurants[i]['name'])
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
     ('/results', ResultsHandlers),
     ('/createDummies', CreateDummies),
     ('/login', LoginHandler),
-    ('/success', MainPageHandler),
-    ('/activities', ActivitiesHandler)
+    ('/success', MainPageHandler)
 ], debug=True)
