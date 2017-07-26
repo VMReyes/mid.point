@@ -27,12 +27,11 @@ class MainPageHandler(webapp2.RequestHandler):
         template = env.get_template('index.html')
         user = users.get_current_user()
         if user:
-            query = UserStorage.query(UserStorage.email == user.email())
-            user1 = query.get()
-            address = user1.address
             template_vars = {'logstatus':"Log Out",
-                             'logoutlink': users.create_logout_url('/'),
-                             'address': address}
+                             'logoutlink': users.create_logout_url('/')
+                             }
+            if UserStorage.query(UserStorage.email == user.email()).get().setup==True:
+                template_vars['address'] = UserStorage.query(UserStorage.email == user.email()).get().address
             self.response.write(template.render(template_vars))
         else:
             template_vars = {'logstatus': "Log In",
@@ -54,12 +53,8 @@ class MainPageHandler(webapp2.RequestHandler):
         person.put()
         template = env.get_template('index.html')
         if user:
-            query = UserStorage.query(UserStorage.email == user.email())
-            user1 = query.get()
-            address = user1.address
             template_vars = {'logstatus':"Log Out",
-                             'logoutlink': users.create_logout_url('/'),
-                             'address': address}
+                             'logoutlink': users.create_logout_url('/')}
             self.response.write(template.render(template_vars))
         else:
             template_vars = {'logstatus': "Log In",
@@ -75,32 +70,28 @@ class ResultsHandlers(webapp2.RequestHandler):
         content_dict = json.loads(content)
         lng = float(content_dict['results'][0]['geometry']['location']['lng'])
         lat = float(content_dict['results'][0]['geometry']['location']['lat'])
-        print lat
-        print lng
         friends = int(self.request.get('friends'))
         for i in range(1,friends+1,1):
             user_query = UserStorage.query(UserStorage.email == self.request.get('femail'+str(i)))
             friend = user_query.get()
             lat += friend.LatLocation
             lng += friend.LongLocation
-            print lat
-            print lng
-        lat /= float(friends)+1
-        lng /= float(friends)+1
-        coords = {'lat' : lat,
-                  'lon' : lng}
-
+        lat /= friends + 1
+        lng /= friends + 1
+        template_vars = {'lat' : lat,
+                         'lon' : lng}
+        coordsquery = str(lat) + "," + str(lng)
+        print coordsquery
+        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=1000&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
+        restaurants = json.load(restaurants)
+        restaurants = restaurants['results']
+        print restaurants
+        for i in range(0,10,1):
+            template_vars[str(i)] = restaurants[i]['name']
+        print template_vars
         template = env.get_template('results.html')
-        self.response.write(template.render(coords))
+        self.response.write(template.render(template_vars))
 
-class CreateDummies(webapp2.RequestHandler):
-    def get(self):
-        UserStorage(id = "Prado Inciong", email="prado_jix@yahoo.com", LatLocation = 33.99, LongLocation= -118.47  ).put()
-        UserStorage(id = "Jasmine Chau", email="jasmine_chau@yahoo.com", LatLocation = 55.0, LongLocation= 118.47  ).put()
-        UserStorage(id = "Victor Reyes", email="victor_reyes@yahoo.com", LatLocation = -3.99, LongLocation= -118.47  ).put()
-        user_query = UserStorage.query()
-        users = user_query.fetch()
-        self.response.write(users)
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -110,19 +101,16 @@ class LoginHandler(webapp2.RequestHandler):
             UserStorage(email=user.email()).put()
         template_vars = {'name':user.nickname()
         }
+        if UserStorage.query(UserStorage.email == user.email()).get().setup == True:
+            template_vars['autofill1'] = UserStorage.query(UserStorage.email == user.email()).get().id
+            template_vars['autofill2'] = UserStorage.query(UserStorage.email == user.email()).get().address
         self.response.write(template.render(template_vars))
 
-class ActivitiesHandler(webapp2.RequestHandler):
-    def get(self):
-        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyCLQX1qUpEtlls2fjHvThYT7WbufGnOPD0").read()
-        self.response.write("<html>%s</html>" % restaurants)
 
 
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
     ('/results', ResultsHandlers),
-    ('/createDummies', CreateDummies),
     ('/login', LoginHandler),
-    ('/success', MainPageHandler),
-    ('/activities', ActivitiesHandler)
+    ('/success', MainPageHandler)
 ], debug=True)
