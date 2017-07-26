@@ -19,7 +19,6 @@ from google.appengine.api import users
 import urllib2
 import json
 
-
 env=jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 
 
@@ -40,8 +39,13 @@ class MainPageHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         person = UserStorage.query(UserStorage.email == users.get_current_user().email()).get()
         person.id = self.request.get('name')
-        person.LatLocation = float(self.request.get('user_LatLocation'))
-        person.LongLocation = float(self.request.get('user_LongLocation'))
+        address = self.request.get('user_LatLocation')
+        address = address.replace(" ", "+")
+        content = urllib2.urlopen("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % address).read()
+        content_dict = json.loads(content)
+        person.LatLocation = float(content_dict['results'][0]['geometry']['location']['lat'])
+        person.LongLocation = float(content_dict['results'][0]['geometry']['location']['lng'])
+
         person.setup = True
         person.put()
         template = env.get_template('index.html')
