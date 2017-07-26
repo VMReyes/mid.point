@@ -54,8 +54,12 @@ class MainPageHandler(webapp2.RequestHandler):
         person.put()
         template = env.get_template('index.html')
         if user:
+            query = UserStorage.query(UserStorage.email == user.email())
+            user1 = query.get()
+            address = user1.address
             template_vars = {'logstatus':"Log Out",
-                             'logoutlink': users.create_logout_url('/')}
+                             'logoutlink': users.create_logout_url('/'),
+                             'address': address}
             self.response.write(template.render(template_vars))
         else:
             template_vars = {'logstatus': "Log In",
@@ -69,11 +73,9 @@ class ResultsHandlers(webapp2.RequestHandler):
         address = address.replace(" ", "+")
         content = urllib2.urlopen("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % address).read()
         content_dict = json.loads(content)
-        loc2 = float(content_dict['results'][0]['geometry']['location']['lng'])
-        loc1 = float(content_dict['results'][0]['geometry']['location']['lat'])
+        lat = float(content_dict['results'][0]['geometry']['location']['lng'])
+        lon = float(content_dict['results'][0]['geometry']['location']['lat'])
         friends = int(self.request.get('friends'))
-        lat=0.00
-        lon=0.00
         for i in range(1,friends,1):
             user_query = UserStorage.query(UserStorage.email == self.request.get('femail'+str(i)))
             friend = user_query.get()
@@ -106,11 +108,17 @@ class LoginHandler(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
+class ActivitiesHandler(webapp2.RequestHandler):
+    def get(self):
+        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyCLQX1qUpEtlls2fjHvThYT7WbufGnOPD0").read()
+        self.response.write("<html>%s</html>" % restaurants)
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
     ('/results', ResultsHandlers),
     ('/createDummies', CreateDummies),
     ('/login', LoginHandler),
-    ('/success', MainPageHandler)
+    ('/success', MainPageHandler),
+    ('/activities', ActivitiesHandler)
 ], debug=True)
