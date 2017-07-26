@@ -27,9 +27,12 @@ class MainPageHandler(webapp2.RequestHandler):
         template = env.get_template('index.html')
         user = users.get_current_user()
         if user:
+            query = UserStorage.query(UserStorage.email == user.email())
+            user1 = query.get()
+            address = user1.address
             template_vars = {'logstatus':"Log Out",
                              'logoutlink': users.create_logout_url('/'),
-                             'address': UserStorage.query(UserStorage.email == users.email()).get().address}
+                             'address': address}
             self.response.write(template.render(template_vars))
         else:
             template_vars = {'logstatus': "Log In",
