@@ -104,10 +104,11 @@ class LoginHandler(webapp2.RequestHandler):
 
 class ActivitiesHandler(webapp2.RequestHandler):
     def get(self):
-        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&key=AIzaSyCLQX1qUpEtlls2fjHvThYT7WbufGnOPD0").read()
-        restaurants = resturants
-        self.response.write("<html>%s</html>" % restaurants)
-
+        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%d,%d&radius=500&type=restaurant&key=AIzaSyCLQX1qUpEtlls2fjHvThYT7WbufGnOPD0" %)
+        restaurants = json.load(restaurants)
+        restaurants = restaurants['results']
+        for i in range(11):
+            self.response.write("%s\n<br>" % restaurants[i]['name'])
 
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
