@@ -28,7 +28,8 @@ class MainPageHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         if user:
             template_vars = {'logstatus':"Log Out",
-                             'logoutlink': users.create_logout_url('/')}
+                             'logoutlink': users.create_logout_url('/'),
+                             'address': UserStorage.query(UserStorage.email == users.email()).get().address}
             self.response.write(template.render(template_vars))
         else:
             template_vars = {'logstatus': "Log In",
@@ -40,12 +41,12 @@ class MainPageHandler(webapp2.RequestHandler):
         person = UserStorage.query(UserStorage.email == users.get_current_user().email()).get()
         person.id = self.request.get('name')
         address = self.request.get('user_LatLocation')
+        person.address = address
         address = address.replace(" ", "+")
         content = urllib2.urlopen("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % address).read()
         content_dict = json.loads(content)
         person.LatLocation = float(content_dict['results'][0]['geometry']['location']['lat'])
         person.LongLocation = float(content_dict['results'][0]['geometry']['location']['lng'])
-
         person.setup = True
         person.put()
         template = env.get_template('index.html')
@@ -96,7 +97,11 @@ class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         template = env.get_template('profile.html')
-        self.response.write(template.render())
+        if not UserStorage.query(UserStorage.email == user.email()).get():
+            UserStorage(email=user.email()).put()
+        template_vars = {'name':user.nickname()
+        }
+        self.response.write(template.render(template_vars))
 
 
 app = webapp2.WSGIApplication([

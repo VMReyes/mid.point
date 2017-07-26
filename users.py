@@ -6,3 +6,4 @@ class UserStorage(ndb.Model):
     LatLocation = ndb.FloatProperty()
     LongLocation = ndb.FloatProperty()
     setup = ndb.BooleanProperty()
+    address = ndb.StringProperty()
