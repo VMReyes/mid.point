@@ -156,18 +156,47 @@
 }
 
 /*Form*/
+form{
+  opacity: 0.9;
+}
+
+input[type=text]{
+  margin-left: -10%;
+  border: 2px solid black;
+  width: 100%;
+}
+
+input[type=submit]{
+  margin-top: 5%;
+  margin-left: -10%;
+  width: 50%;
+  border: 2px solid black;
+}
+
+#main_right h1{
+  text-weight: 900;
+}
+
 #main_right button{
-  margin-left:-15%;
+  margin-left:-10%;
   background-color: red;
   border-style: solid;
   color: white;
-  padding: 8%;
+  padding: 1%;
   border: 1px solid
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   cursor: pointer;
+}
+
+#friend_button{
+  margin-top: 5%;
+}
+#add_friend{
+  displat: flex;
+  flex-direction: row;
 }
 
 #main_right h1{

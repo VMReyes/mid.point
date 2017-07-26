@@ -30,7 +30,7 @@ function showPosition(position) {
   var lng = position.coords.longitude;
   request = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc";
   $.getJSON(request, function(data) {
-    latBox.value = data['results'][0];
+    latBox.value =data['results'][0]['formatted_address'];
   });
 }
 numberOfFriends=1;
