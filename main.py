@@ -82,15 +82,13 @@ class ResultsHandlers(webapp2.RequestHandler):
         template_vars['lon'] = lng
 
         coordsquery = str(lat) + "," + str(lng)
-        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=30000&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
+        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=3000&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
         restaurants = json.load(restaurants)
-
         restaurants = restaurants['results']
-        for i in range(0,9,1):
+        for i in range(0,5,1):
             print restaurants[i]['name']
             template_vars['names'].append(restaurants[i]['name'])
             template_vars['ratings'].append(restaurants[i]['rating'])
-        print template_vars['names']
         template = env.get_template('results.html')
         self.response.write(template.render(template_vars))
 
@@ -107,7 +105,10 @@ class LoginHandler(webapp2.RequestHandler):
             template_vars['autofill1'] = found_user.id
             template_vars['autofill2'] = found_user.address
         else:
-            UserStorage(email=user.email()).put()
+            useremail=user.email()
+            useremail=useremail.lower()
+            print useremail
+            UserStorage(email=useremail).put()
 
         self.response.write(template.render(template_vars))
 
