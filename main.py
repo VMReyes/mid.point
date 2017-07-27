@@ -87,7 +87,7 @@ class ResultsHandlers(webapp2.RequestHandler):
         restaurants = restaurants['results']
         for i in range(0,5,1):
             print restaurants[i]['name'].encode('utf-8')
-            template_vars['names'].append(restaurants[i]['name'].encode('utf-8'))
+            template_vars['names'].append(restaurants[i]['name'])
             c = restaurants[i]['rating']
             a = "%1.2f" % restaurants[i]['rating']
             print type(a)
