@@ -7,6 +7,7 @@ import urllib2
 import json
 import itertools
 
+
 env=jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 env.globals.update(zip=zip)
 
@@ -82,15 +83,15 @@ class ResultsHandlers(webapp2.RequestHandler):
         template_vars['lon'] = lng
 
         coordsquery = str(lat) + "," + str(lng)
-        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=500&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
+        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=30000&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
         restaurants = json.load(restaurants)
 
         restaurants = restaurants['results']
-        for i in range(0,5,1):
+        for i in range(0,9,1):
+            print restaurants[i]['name']
             template_vars['names'].append(restaurants[i]['name'])
             template_vars['ratings'].append(restaurants[i]['rating'])
-#            asdf = restaurants[i]['price_level']
-#            template_vars['price_ranges'].append(asdf)
+        print template_vars['names']
         template = env.get_template('results.html')
         self.response.write(template.render(template_vars))
 
