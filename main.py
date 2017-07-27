@@ -85,13 +85,12 @@ class ResultsHandlers(webapp2.RequestHandler):
         restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=500&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
         restaurants = json.load(restaurants)
 
-        restaurants = restaurants['results'][0]['price_level']
-        print restaurants
+        restaurants = restaurants['results']
         for i in range(0,5,1):
             template_vars['names'].append(restaurants[i]['name'])
             template_vars['ratings'].append(restaurants[i]['rating'])
-            asdf = restaurants[i]['price_level']
-            template_vars['price_ranges'].append(asdf)
+#            asdf = restaurants[i]['price_level']
+#            template_vars['price_ranges'].append(asdf)
         template = env.get_template('results.html')
         self.response.write(template.render(template_vars))
 
