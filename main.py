@@ -105,8 +105,7 @@ class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         template = env.get_template('profile.html')
-        if not UserStorage.query(UserStorage.email == user.email()).get():
-            UserStorage(email=user.email()).put()
+        UserStorage(email=user.email()).put()
         template_vars = {'name':user.nickname()
         }
         template_vars['autofill1'] = UserStorage.query(UserStorage.email == user.email()).get().id
