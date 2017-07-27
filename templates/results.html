@@ -31,10 +31,13 @@
     <div id="map2">
     <table>
     <th>List of Restaurants Found at Midpoint</th>
-    {% for names in names %}
+    {% for names,ratings,price_ranges in zip(names,ratings,price_ranges) %}
     <tr>
     <td>{{names}}</td>
+    <td>{{ratings}}</td>
+    <p>Price Level: {{price_ranges}}</p>
     </tr>
+>>>>>>> abb69afd2a867e229089d2ccc37bf1213773ecea
     {% endfor %}
     </table>
   </div>
