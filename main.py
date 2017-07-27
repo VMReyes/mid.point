@@ -109,6 +109,10 @@ class LoginHandler(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_vars))
 
+class AboutUs(webapp2.RequestHandler):
+    def get(self):
+        template = env.get_template('about_us.html')
+        self.response.write(template.render())
 
 
 app = webapp2.WSGIApplication([
@@ -116,5 +120,6 @@ app = webapp2.WSGIApplication([
     ('/results', ResultsHandlers),
     ('/createDummies', CreateDummies),
     ('/login', LoginHandler),
-    ('/success', MainPageHandler)
+    ('/success', MainPageHandler),
+    ('/AboutUs', AboutUs),
 ], debug=True)
