@@ -106,8 +106,8 @@ class LoginHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         template = env.get_template('profile.html')
         UserStorage(email=user.email()).put()
-        template_vars = {'name':user.nickname()
-        }
+        template_vars = {'name':user.nickname()}
+        
         template_vars['autofill1'] = UserStorage.query(UserStorage.email == user.email()).get().id
         template_vars['autofill2'] = UserStorage.query(UserStorage.email == user.email()).get().address
         self.response.write(template.render(template_vars))
