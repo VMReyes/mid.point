@@ -11,6 +11,9 @@
   <body>
     <h1>This is your meetup location.</h1>
     <div id="map"></div>
+    {% for names in names %}
+    <h1>{{names}}</h1>
+    {% endfor %}
     <script>
       function initMap() {
 
@@ -59,34 +62,16 @@
         /*End of marker in the map for the user's code*/
 
         /*These are the dummy variables*/
-            var broadway = {
 
-            		lat: 34.2,
-            		long: -118.40
-            	};
-
-            	var belmont = {
-
-            		lat: 50.93,
-            		long: -110.65
-            	};
-
-            	var sheridan = {
-
-            		lat: 48.002707,
-            		long: -115.661236
-            	};
-
-            	var locations = [
-                  [ broadway.lat, broadway.long, 0],
-                  [ belmont.lat, belmont.long, 1],
-                  [sheridan.lat, sheridan.long, 2],
-                ];
-
-
+            	var locations = [];
+              console.log(locations)
+                {% for location in location_list %}
+                locations.push([{{location.lat}},{{location.long}} ]);
+                console.log(locations)
+                {% endfor %}
 
               /*This allows to reiterate locations list and place markers*/
-            	var infowindow = new google.maps.InfoWindow({});
+            	//var infowindow = new google.maps.InfoWindow({});
 
             	var marker, i;
 

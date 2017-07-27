@@ -70,25 +70,33 @@ class ResultsHandlers(webapp2.RequestHandler):
         content_dict = json.loads(content)
         lng = float(content_dict['results'][0]['geometry']['location']['lng'])
         lat = float(content_dict['results'][0]['geometry']['location']['lat'])
+
         friends = int(self.request.get('friends'))
+        template_vars = {'location_list': [],
+                         'names': []
+                         }
+        template_vars['location_list'].append({'lat':lat,'long':lng})
         for i in range(1,friends+1,1):
             user_query = UserStorage.query(UserStorage.email == self.request.get('femail'+str(i)))
+            print user_query
             friend = user_query.get()
+            template_vars['location_list'].append({'lat':friend.LatLocation,'long':friend.LongLocation})
             lat += friend.LatLocation
             lng += friend.LongLocation
-        lat /= friends + 1
-        lng /= friends + 1
-        template_vars = {'lat' : lat,
-                         'lon' : lng}
+        lat /= (float(friends) + 1)
+        lng /= (float(friends) + 1)
+        print template_vars
+        template_vars['lat'] = lat
+        template_vars['lon'] = lng
+
         coordsquery = str(lat) + "," + str(lng)
         print coordsquery
-        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=1000&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
+        restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=500&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
         restaurants = json.load(restaurants)
         restaurants = restaurants['results']
-        print restaurants
-        for i in range(0,10,1):
-            template_vars[str(i)] = restaurants[i]['name']
-        print template_vars
+        for i in range(0,5,1):
+            template_vars['names'].append(restaurants[i]['name'])
+        print template_vars['names'][0]
         template = env.get_template('results.html')
         self.response.write(template.render(template_vars))
 
@@ -101,9 +109,8 @@ class LoginHandler(webapp2.RequestHandler):
             UserStorage(email=user.email()).put()
         template_vars = {'name':user.nickname()
         }
-        if UserStorage.query(UserStorage.email == user.email()).get().setup == True:
-            template_vars['autofill1'] = UserStorage.query(UserStorage.email == user.email()).get().id
-            template_vars['autofill2'] = UserStorage.query(UserStorage.email == user.email()).get().address
+        template_vars['autofill1'] = UserStorage.query(UserStorage.email == user.email()).get().id
+        template_vars['autofill2'] = UserStorage.query(UserStorage.email == user.email()).get().address
         self.response.write(template.render(template_vars))
 
 
