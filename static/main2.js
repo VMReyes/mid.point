@@ -14,6 +14,11 @@ $("#header_dot").animate({center:0, opacity:1},2000);
 $("#header_point").css({"position":"relative","opacity": 0, "right":"+=100"});
 $("#header_point").animate({right:0, opacity:1},2000);
 
+$("#headerone").css({"position":"relative","opacity": 0, "left":"+=100"});
+$("#headerone").animate({left:0, opacity:1},2000);
+
+$("#headertwo").css({"position":"relative","opacity": 0, "right":"+=100"});
+$("#headertwo").animate({right:0, opacity:1},2000);
 
 var x = document.getElementById("demo");
 console.log(x)

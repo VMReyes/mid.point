@@ -130,3 +130,109 @@
   margin-left: 480px;
   margin-bottom: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+
+}
+td{
+  border: 1px solid #dddddd;
+  font-size: 250%;
+}
+th{
+  font-size: 320%;
+}
+#map2 tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+#meet_location_text{
+  font-size: 320%;
+}
+
+#map{
+  height: 500px;
+  width: 95%;
+  margin-left: 3%;
+}
