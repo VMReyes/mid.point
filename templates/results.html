@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-       #map {
-        height: 400px;
-        width: 100%;
-       }
-    </style>
+
     <link rel="stylesheet" href="static/results.css">
   </head>
   <body>
@@ -26,18 +21,26 @@
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="#">Contact Page</a></li>
-          <li><a href="#">About Us</a></li>
+          <li><a href="/AboutUs">About Us</a></li>
           <li><a href="/login">Log In</a></li>
         </ul>
       </div>
     </div>
-    <h1>This is your meetup location.</h1>
+    <h1 id="meet_location_text">This is your meetup location.</h1>
     <div id="map"></div>
+    <div id="map2">
+    <table>
+    <th>List of Restaurants Found at Midpoint</th>
     {% for names,ratings,price_ranges in zip(names,ratings,price_ranges) %}
-    <h1>{{names}}</h1>
-    <p>Rating:{{ratings}}</p>
+    <tr>
+    <td>{{names}}</td>
+    <td>{{ratings}}</td>
     <p>Price Level: {{price_ranges}}</p>
+    </tr>
+>>>>>>> abb69afd2a867e229089d2ccc37bf1213773ecea
     {% endfor %}
+    </table>
+  </div>
     <script>
       function initMap() {
 
@@ -112,8 +115,13 @@
 
       }
     </script>
+
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLQX1qUpEtlls2fjHvThYT7WbufGnOPD0&callback=initMap">
     </script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="static/main2.js"></script>
   </body>
 </html>
