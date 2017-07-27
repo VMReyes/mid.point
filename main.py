@@ -88,10 +88,9 @@ class ResultsHandlers(webapp2.RequestHandler):
         for i in range(0,5,1):
             print restaurants[i]['name'].encode('utf-8')
             template_vars['names'].append(restaurants[i]['name'])
-            c = restaurants[i]['rating']
-            a = "%1.2f" % restaurants[i]['rating']
-            print type(a)
-            print a
+            if 'rating' in restaurants[i]:
+                c = restaurants[i]['rating']
+                a = "%1.2f" % restaurants[i]['rating']
             template_vars['ratings'].append(a)
         template = env.get_template('results.html')
         self.response.write(template.render(template_vars))
@@ -134,4 +133,4 @@ app = webapp2.WSGIApplication([
     ('/success', MainPageHandler),
     ('/AboutUs', AboutUs),
     ('/ContactUs',ContactUs),
-], debug=True)
+], debug=False)
