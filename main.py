@@ -87,9 +87,13 @@ class ResultsHandlers(webapp2.RequestHandler):
         restaurants = json.load(restaurants)
         restaurants = restaurants['results']
         for i in range(0,5,1):
-            print restaurants[i]['name']
-            template_vars['names'].append(restaurants[i]['name'])
-            template_vars['ratings'].append(restaurants[i]['rating'])
+            print restaurants[i]['name'].encode('utf-8')
+            template_vars['names'].append(restaurants[i]['name'].encode('utf-8'))
+            c = restaurants[i]['rating']
+            a = "%1.2f" % restaurants[i]['rating']
+            print type(a)
+            print a
+            template_vars['ratings'].append(a)
         template = env.get_template('results.html')
         self.response.write(template.render(template_vars))
 

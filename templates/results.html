@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
-
+  <head>    
+    <meta charset="utf-8">
     <link rel="stylesheet" href="static/results.css">
   </head>
   <body>
@@ -31,10 +31,10 @@
     <div id="map2">
     <table>
     <th>List of Restaurants Found at Midpoint</th>
-    {% for names,ratings in zip(names,ratings) %}
+    {% for names,rating in zip(names,ratings) %}
     <tr>
     <td>{{names}}</td>
-    <td>Rating: {{ratings}}</td>
+    <td>Rating:{{rating}}</td>
     </tr>
     {% endfor %}
     </table>
