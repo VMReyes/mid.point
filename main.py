@@ -1,16 +1,3 @@
-# Copyright 2016 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 import webapp2
 import jinja2
@@ -18,8 +5,11 @@ from users import *
 from google.appengine.api import users
 import urllib2
 import json
+import itertools
 
 env=jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
+env.globals.update(zip=zip)
+
 
 
 class MainPageHandler(webapp2.RequestHandler):
@@ -74,7 +64,9 @@ class ResultsHandlers(webapp2.RequestHandler):
 
         friends = int(self.request.get('friends'))
         template_vars = {'location_list': [],
-                         'names': []
+                         'names': [],
+                         'ratings':[],
+                         'price_ranges':[]
                          }
         template_vars['location_list'].append({'lat':lat,'long':lng})
         for i in range(1,friends+1,1):
@@ -86,18 +78,20 @@ class ResultsHandlers(webapp2.RequestHandler):
             lng += friend.LongLocation
         lat /= (float(friends) + 1)
         lng /= (float(friends) + 1)
-        print template_vars
         template_vars['lat'] = lat
         template_vars['lon'] = lng
 
         coordsquery = str(lat) + "," + str(lng)
-        print coordsquery
         restaurants = urllib2.urlopen("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&radius=500&type=restaurant&key=AIzaSyADJhWkgPHBu3SXXrtqnJNmdmz7Xu_mhRc" % coordsquery)
         restaurants = json.load(restaurants)
-        restaurants = restaurants['results']
+
+        restaurants = restaurants['results'][0]['price_level']
+        print restaurants
         for i in range(0,5,1):
             template_vars['names'].append(restaurants[i]['name'])
-        print template_vars['names'][0]
+            template_vars['ratings'].append(restaurants[i]['rating'])
+            asdf = restaurants[i]['price_level']
+            template_vars['price_ranges'].append(asdf)
         template = env.get_template('results.html')
         self.response.write(template.render(template_vars))
 

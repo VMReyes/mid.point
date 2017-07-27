@@ -33,8 +33,10 @@
     </div>
     <h1>This is your meetup location.</h1>
     <div id="map"></div>
-    {% for names in names %}
+    {% for names,ratings,price_ranges in zip(names,ratings,price_ranges) %}
     <h1>{{names}}</h1>
+    <p>Rating:{{ratings}}</p>
+    <p>Price Level: {{price_ranges}}</p>
     {% endfor %}
     <script>
       function initMap() {
