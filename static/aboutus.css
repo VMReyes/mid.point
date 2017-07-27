@@ -100,16 +100,16 @@
 
 }
 
-#headerone img {
-  height: 55px;
+#header_mid img {
+  height: 50%;
   padding-right: 10px;
 }
 #header_dot{
   height: 20px;
   margin-top: 20px;
 }
-#headertwo img{
-  height: 55px;
+#header_point img{
+  height: 50%;
   padding-left: 10px;
 }
 /*End of Title Heading Style*/
@@ -119,124 +119,30 @@
   flex-direction: column;
 }
 
- h1{
-  text-align: center;
-}
-
-<<<<<<< HEAD
- 
-=======
- #summary p{
+ #summary {
+  background-color: white;
+  opacity: 0.7;
   text-align: center;
   width: 500px;
   display: block;
-  margin-left: 480px;
-  margin-bottom: 10px;
+  margin-top: 50px;
+  margin-left: 450px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: 2px solid black;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-
+body {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
-td{
-  border: 1px solid #dddddd;
-  font-size: 250%;
-}
-th{
-  font-size: 320%;
-}
-#map2 tr:nth-child(even) {
-    background-color: #dddddd;
-}
-
-#meet_location_text{
-  font-size: 320%;
-}
-
-#map{
-  height: 500px;
-  width: 95%;
-  margin-left: 3%;
-}
->>>>>>> abb69afd2a867e229089d2ccc37bf1213773ecea
+ #picsofus{
+   display: flex;
+   flex-direction: row;
+   margin-left: 250px;
+   margin-right: 250px;
+   justify-content: space-between;
+ }
