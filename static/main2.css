@@ -204,3 +204,8 @@ input[type=submit]{
   font-weight: 300;
   font-size: 110%;
 }
+
+
+#friendCounter {
+  visibility: hidden;
+}
