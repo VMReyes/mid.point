@@ -1,4 +1,3 @@
-
 import webapp2
 import jinja2
 from users import *
@@ -117,6 +116,11 @@ class AboutUs(webapp2.RequestHandler):
         template = env.get_template('about_us.html')
         self.response.write(template.render())
 
+class ContactUs(webapp2.RequestHandler):
+    def get(self):
+        template = env.get_template('contact_us.html')
+        self.response.write(template.render())
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler),
@@ -124,4 +128,5 @@ app = webapp2.WSGIApplication([
     ('/login', LoginHandler),
     ('/success', MainPageHandler),
     ('/AboutUs', AboutUs),
+    ('/ContactUs',ContactUs),
 ], debug=True)
