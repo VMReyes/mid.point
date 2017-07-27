@@ -54,7 +54,8 @@ class MainPageHandler(webapp2.RequestHandler):
         template = env.get_template('index.html')
         if user:
             template_vars = {'logstatus':"Log Out",
-                             'logoutlink': users.create_logout_url('/')}
+                             'logoutlink': users.create_logout_url('/'),
+                             'address':person.address}
             self.response.write(template.render(template_vars))
         else:
             template_vars = {'logstatus': "Log In",
@@ -105,11 +106,16 @@ class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         template = env.get_template('profile.html')
-        UserStorage(email=user.email()).put()
-        template_vars = {'name':user.nickname()}
-        
-        template_vars['autofill1'] = UserStorage.query(UserStorage.email == user.email()).get().id
-        template_vars['autofill2'] = UserStorage.query(UserStorage.email == user.email()).get().address
+        template_vars = {'name':user.nickname(),
+                         'autofill1': "",
+                         'autofill2': ""}
+        found_user = UserStorage.query(UserStorage.email == user.email()).get()
+        if found_user:
+            template_vars['autofill1'] = found_user.id
+            template_vars['autofill2'] = found_user.address
+        else:
+            UserStorage(email=user.email()).put()
+
         self.response.write(template.render(template_vars))
 
 class AboutUs(webapp2.RequestHandler):
